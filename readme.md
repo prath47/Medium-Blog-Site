@@ -8,5 +8,5 @@
 - zod as validation library and types interference in Frontend
 - Typescript
 - Prisma as ORM, connection Pooling
-- PostGres Database
+- Postgres Database
 - jwt auth
