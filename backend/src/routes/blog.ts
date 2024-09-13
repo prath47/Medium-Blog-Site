@@ -93,12 +93,23 @@ blogRouter.put("/", async (c) => {
 
 blogRouter.get("/bulk", async (c) => {
   try {
-    const body = await c.req.json();
     const prisma = new PrismaClient({
       datasourceUrl: c.env?.DATABASE_URL,
     }).$extends(withAccelerate());
 
-    const blogs = await prisma.post.findMany();
+    const blogs = await prisma.post.findMany({
+      select: {
+        content: true,
+        title: true,
+        id: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+    // console.log("here are the blogs", blogs);
 
     c.status(200);
     return c.json({
@@ -106,6 +117,7 @@ blogRouter.get("/bulk", async (c) => {
     });
   } catch (error) {
     c.status(500);
+    console.log(error);
     return c.json({
       error: "Error while fetching blogs",
     });
