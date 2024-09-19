@@ -41,6 +41,7 @@ blogRouter.post("/", async (c) => {
     datasourceUrl: c.env?.DATABASE_URL,
   }).$extends(withAccelerate());
 
+  console.log(body);
   const { success } = createBlogInput.safeParse(body);
   if (!success) {
     c.status(422);
@@ -133,9 +134,20 @@ blogRouter.get("/:id", async (c) => {
       datasourceUrl: c.env?.DATABASE_URL,
     }).$extends(withAccelerate());
 
+    console.log(id);
     const blog = await prisma.post.findUnique({
       where: {
         id: id,
+      },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
     return c.json({

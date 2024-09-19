@@ -1,9 +1,21 @@
-import React from 'react'
+import { useBlog } from "../hooks";
+import { useParams } from "react-router-dom";
+import FullBlog from "./FullBlog";
 
 const Blog = () => {
-  return (
-    <div>Blog</div>
-  )
-}
+  const { id } = useParams();
+  // console.log(id);
 
-export default Blog
+  const { blog, loading } = useBlog({ id: id || "hello" });
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div>
+      {blog && <FullBlog blog={blog} />}
+    </div>
+  );
+};
+
+export default Blog;
