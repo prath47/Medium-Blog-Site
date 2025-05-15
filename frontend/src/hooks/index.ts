@@ -14,7 +14,7 @@ export interface Blog {
 export const useBlogs = () => {
   const [loading, setLoading] = useState(true);
   const [blogs, setBlogs] = useState([]);
-
+  
   const fetchBlogs = async () => {
     const res = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {
       headers: {
@@ -47,7 +47,7 @@ export const useBlog = ({ id }: { id: string }) => {
       },
     });
     console.log(res.data.blog);
-    setBlog(res.data.blog);
+    setBlog(res.data.blog); 
     setLoading(false);
   };
   useEffect(() => {
